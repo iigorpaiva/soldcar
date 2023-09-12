@@ -1,8 +1,6 @@
 package br.com.soldcar.soldcar.controller;
 
-import br.com.soldcar.soldcar.model.Carro;
 import br.com.soldcar.soldcar.model.Cor;
-import br.com.soldcar.soldcar.service.CarroService;
 import br.com.soldcar.soldcar.service.CorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
