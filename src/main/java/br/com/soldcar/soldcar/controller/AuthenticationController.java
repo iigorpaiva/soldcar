@@ -6,6 +6,7 @@ import br.com.soldcar.soldcar.model.user.LoginResponseDTO;
 import br.com.soldcar.soldcar.model.user.RegisterDTO;
 import br.com.soldcar.soldcar.model.user.User;
 import br.com.soldcar.soldcar.repository.UserRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
         if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
 

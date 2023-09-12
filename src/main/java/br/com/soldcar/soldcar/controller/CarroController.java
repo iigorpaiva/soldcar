@@ -2,6 +2,7 @@ package br.com.soldcar.soldcar.controller;
 
 import br.com.soldcar.soldcar.model.Carro;
 import br.com.soldcar.soldcar.service.CarroService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +18,13 @@ public class CarroController {
     private CarroService carroService;
 
     @GetMapping("/buscarCarrosPorModelo")
+    @SecurityRequirement(name = "Bearer Authentication")
     public List<Carro> buscarCarrosPorModelo(@RequestParam String modelo) {
         return carroService.buscarCarroPorNome(modelo);
     }
 
     @PostMapping("/inserirCarro")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Carro> inserirCarro(@RequestBody Carro carro) {
         Carro carroCriado = carroService.inserirCarro(carro);
         return new ResponseEntity<>(carro, HttpStatus.CREATED);

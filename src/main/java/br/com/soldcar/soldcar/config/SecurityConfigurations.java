@@ -21,7 +21,7 @@ public class SecurityConfigurations {
     @Autowired
     SecurityFilter securityFilter;
 
-    private static final String[] AUTH_WHITELIST = {
+    private static final String[] AUTH_SWAGGER_WHITELIST = {
             // -- Swagger UI v2
             "/v2/api-docs",
             "/swagger-resources",
@@ -42,7 +42,7 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(AUTH_WHITELIST).permitAll()
+                        .requestMatchers(HttpMethod.GET, AUTH_SWAGGER_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/cor").hasRole("ADMIN")
