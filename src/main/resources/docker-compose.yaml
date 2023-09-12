@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mysqlserver:
+    image: mysql:8.0.26
+    container_name: soldcar_database_container
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Abap@0009
+      MYSQL_USER: soldcar_user
+      MYSQL_PASSWORD: Abap@0009
+      MYSQL_DATABASE: soldcar_database
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
