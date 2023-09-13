@@ -1,5 +1,6 @@
 package br.com.soldcar.soldcar.controller;
 
+import br.com.soldcar.soldcar.dto.CarroRequestDTO;
 import br.com.soldcar.soldcar.model.Carro;
 import br.com.soldcar.soldcar.service.CarroService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -20,13 +21,13 @@ public class CarroController {
     @GetMapping("/buscarCarrosPorModelo")
     @SecurityRequirement(name = "Bearer Authentication")
     public List<Carro> buscarCarrosPorModelo(@RequestParam String modelo) {
-        return carroService.buscarCarroPorNome(modelo);
+        return carroService.buscarCarroPorModelo(modelo);
     }
 
     @PostMapping("/inserirCarro")
     @SecurityRequirement(name = "Bearer Authentication")
-    public ResponseEntity<Carro> inserirCarro(@RequestBody Carro carro) {
-        Carro carroCriado = carroService.inserirCarro(carro);
-        return new ResponseEntity<>(carro, HttpStatus.CREATED);
+    public ResponseEntity<Carro> inserirCarro(@RequestBody CarroRequestDTO carroRequestDTO) {
+        Carro carroCriado = carroService.inserirCarro(carroRequestDTO);
+        return new ResponseEntity<>(carroCriado, HttpStatus.CREATED);
     }
 }

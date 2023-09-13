@@ -20,14 +20,16 @@ public class Carro {
 
     private String modelo;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "marca_id")
     private Marca marca;
 
     private String anoFabricacao;
 
     private String anoModelo;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "cor_id")
     private Cor cor;
 
 

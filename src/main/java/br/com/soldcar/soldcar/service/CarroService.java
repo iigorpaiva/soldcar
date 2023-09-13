@@ -1,5 +1,6 @@
 package br.com.soldcar.soldcar.service;
 
+import br.com.soldcar.soldcar.dto.CarroRequestDTO;
 import br.com.soldcar.soldcar.model.Carro;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,17 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 public interface CarroService {
+    /**
+     * Método para buscar todos os carros pelo modelo
+     * @param modelo O nome do modelo do carro
+     * @return Lista de carros
+     */
+    List<Carro> buscarCarroPorModelo(String modelo);
 
-    List<Carro> buscarCarroPorNome(String modelo);
-    Carro inserirCarro(Carro carro);
+    /**
+     * Método para persistir um novo carro
+     * @param carroRequestDTO Objeto passado para ser persistido
+     * @return Carro O novo carro criado
+     */
+    Carro inserirCarro(CarroRequestDTO carroRequestDTO);
 }

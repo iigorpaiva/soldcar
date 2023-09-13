@@ -19,5 +19,5 @@ public class Cor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String cor;
+    private String nome;
 }
