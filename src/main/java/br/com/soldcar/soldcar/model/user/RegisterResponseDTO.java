@@ -1,16 +1,14 @@
 package br.com.soldcar.soldcar.model.user;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationDTO {
+@Data
+public class RegisterResponseDTO {
 
-    private String login;
-    private String password;
+    private Integer status;
+    private String message;
 }

@@ -1,17 +1,17 @@
 package br.com.soldcar.soldcar.controller;
 
 import br.com.soldcar.soldcar.config.TokenService;
-import br.com.soldcar.soldcar.model.user.AuthenticationDTO;
-import br.com.soldcar.soldcar.model.user.LoginResponseDTO;
-import br.com.soldcar.soldcar.model.user.RegisterDTO;
-import br.com.soldcar.soldcar.model.user.User;
+import br.com.soldcar.soldcar.dto.ErrorResponseDTO;
+import br.com.soldcar.soldcar.model.user.*;
 import br.com.soldcar.soldcar.repository.UserRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,26 +30,34 @@ public class AuthenticationController {
     private TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
+    public ResponseEntity<?> login(@RequestBody @Valid AuthenticationDTO data) {
+        try {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getPassword());
+            var auth = authenticationManager.authenticate(usernamePassword);
 
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var auth = authenticationManager.authenticate(usernamePassword);
+            var token = tokenService.generateToken((User) auth.getPrincipal());
 
-        var token = tokenService.generatedToken((User) auth.getPrincipal());
-
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+            return ResponseEntity.ok(new LoginResponseDTO(token));
+        } catch (AuthenticationException e) {
+            // Se a autenticação falhar, você pode retornar uma mensagem de erro personalizada
+            String errorMessage = "Credenciais inválidas. Verifique seu login e sua senha.";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponseDTO(errorMessage));
+        }
     }
 
     @PostMapping("/register")
-    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
-        if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.login(), encryptedPassword, data.role());
+        if (this.repository.findByLogin(data.getLogin()) != null || this.repository.findByEmail(data.getEmail()) != null) {
+            return ResponseEntity.badRequest().body(new RegisterResponseDTO(400, "Usuário já registrado!"));
+        }
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(data.getPassword());
+        UserRole finalRole = data.getRole() == null ? UserRole.USER : data.getRole() ;
+        User newUser = new User(data.getLogin(), encryptedPassword, finalRole, data.getEmail(), data.getNome(), data.getSobrenome());
 
         this.repository.save(newUser);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new RegisterResponseDTO(200, "Registro bem-sucedido"));
     }
 }

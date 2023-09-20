@@ -8,7 +8,6 @@ import br.com.soldcar.soldcar.service.CarroService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,5 +32,11 @@ public class CarroServiceImpl implements CarroService {
         Carro carro = carroMapper.carroRequestDTOtoCarro(carroRequestDTO);
         carroRepository.save(carro);
         return carro;
+    }
+
+    @Override
+    public List<Carro> buscarTodosOsCarros() {
+        List<Carro> listaTodosOsCarros = carroRepository.findAll();
+        return listaTodosOsCarros;
     }
 }

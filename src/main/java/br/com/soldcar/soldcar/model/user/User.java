@@ -1,5 +1,6 @@
 package br.com.soldcar.soldcar.model.user;
 
+import br.com.soldcar.soldcar.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,20 +16,26 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class User implements UserDetails {
+public class User extends BaseEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String login;
+    private String email;
+    private String nome;
+    private String sobrenome;
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User(String login, String password, UserRole role){
+    public User(String login, String password, UserRole role, String email, String nome, String sobrenome){
         this.login = login;
         this.password = password;
         this.role = role;
+        this.email = email;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
     }
 
     @Override

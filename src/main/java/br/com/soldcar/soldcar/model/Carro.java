@@ -1,9 +1,13 @@
 package br.com.soldcar.soldcar.model;
 
-import jakarta.persistence.*;
+import br.com.soldcar.soldcar.enums.Cor;
+import br.com.soldcar.soldcar.enums.Marca;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -11,26 +15,18 @@ import lombok.NoArgsConstructor;
 @Table(name = "Carro")
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
-public class Carro {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Carro extends BaseEntity {
 
     private String modelo;
 
-    @ManyToOne
-    @JoinColumn(name = "marca_id")
+    @Enumerated(EnumType.STRING)
     private Marca marca;
 
     private String anoFabricacao;
 
     private String anoModelo;
 
-    @ManyToOne
-    @JoinColumn(name = "cor_id")
+    @Enumerated(EnumType.STRING)
     private Cor cor;
-
 
 }

@@ -21,7 +21,8 @@ public class CarroController {
     @GetMapping("/buscarCarrosPorModelo")
     @SecurityRequirement(name = "Bearer Authentication")
     public List<Carro> buscarCarrosPorModelo(@RequestParam String modelo) {
-        return carroService.buscarCarroPorModelo(modelo);
+        List<Carro> listCarrosPorModelo =  carroService.buscarCarroPorModelo(modelo);
+        return new ResponseEntity<>(listCarrosPorModelo, HttpStatus.OK).getBody();
     }
 
     @PostMapping("/inserirCarro")
@@ -30,4 +31,12 @@ public class CarroController {
         Carro carroCriado = carroService.inserirCarro(carroRequestDTO);
         return new ResponseEntity<>(carroCriado, HttpStatus.CREATED);
     }
+
+    @GetMapping("/buscarTodosOsCarros")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public List<Carro> buscaTodosOsCarros() {
+        List<Carro> listaTodosOsCarros = carroService.buscarTodosOsCarros();
+        return new ResponseEntity<>(listaTodosOsCarros, HttpStatus.OK).getBody();
+    }
+
 }

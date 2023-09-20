@@ -1,4 +1,21 @@
 package br.com.soldcar.soldcar.model.user;
 
-public record RegisterDTO(String login, String password, UserRole role) {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class RegisterDTO {
+
+    private String login;
+    private String password;
+    private String nome;
+    private String sobrenome;
+    private String email;
+    private UserRole role;
+
 }

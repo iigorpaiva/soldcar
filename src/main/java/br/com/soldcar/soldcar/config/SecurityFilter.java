@@ -1,6 +1,7 @@
 package br.com.soldcar.soldcar.config;
 
 import br.com.soldcar.soldcar.repository.UserRepository;
+import br.com.soldcar.soldcar.util.GenericUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,10 +23,16 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    GenericUtils genericUtils;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
-        if(token != null){
+        String teste = "";
+        if(token!=null){
+            System.out.println("TOKEN DENTRO:"+ token);
+            System.out.println("ENTROU!");
             var login = tokenService.validateToken(token);
             UserDetails user = userRepository.findByLogin(login);
 
