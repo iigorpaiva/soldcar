@@ -31,8 +31,6 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = this.recoverToken(request);
         String teste = "";
         if(token!=null){
-            System.out.println("TOKEN DENTRO:"+ token);
-            System.out.println("ENTROU!");
             var login = tokenService.validateToken(token);
             UserDetails user = userRepository.findByLogin(login);
 

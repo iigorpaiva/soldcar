@@ -2,11 +2,9 @@ package br.com.soldcar.soldcar.model;
 
 import br.com.soldcar.soldcar.enums.Cor;
 import br.com.soldcar.soldcar.enums.Marca;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Carro")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Carro extends BaseEntity {
 
     private String modelo;
@@ -28,5 +27,9 @@ public class Carro extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Cor cor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patio_id")
+    private Patio patio;
 
 }

@@ -46,6 +46,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
 
         if (this.repository.findByLogin(data.getLogin()) != null || this.repository.findByEmail(data.getEmail()) != null) {
