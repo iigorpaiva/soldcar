@@ -1,6 +1,7 @@
 package br.com.soldcar.soldcar.service.impl;
 
 import br.com.soldcar.soldcar.dto.CarroRequestDTO;
+import br.com.soldcar.soldcar.exception.CarroInvalidoException;
 import br.com.soldcar.soldcar.mapper.CarroMapper;
 import br.com.soldcar.soldcar.model.Carro;
 import br.com.soldcar.soldcar.repository.CarroRepository;
@@ -29,6 +30,10 @@ public class CarroServiceImpl implements CarroService {
 
     @Override
     public Carro inserirCarro(CarroRequestDTO carroRequestDTO) {
+        if (validaCamposCarroACadastrar(carroRequestDTO)) {
+            throw new CarroInvalidoException("Carro não pode ser cadastrado devido a informações inválidas");
+        }
+
         Carro carro = carroMapper.carroRequestDTOtoCarro(carroRequestDTO);
         carroRepository.save(carro);
         return carro;
@@ -37,6 +42,18 @@ public class CarroServiceImpl implements CarroService {
     @Override
     public List<Carro> buscarTodosOsCarros() {
         List<Carro> listaTodosOsCarros = carroRepository.findAll();
+        if (listaTodosOsCarros.isEmpty()) {
+            throw new CarroInvalidoException("Nenhum carro foi encontrado");
+        }
         return listaTodosOsCarros;
     }
+
+    private boolean validaCamposCarroACadastrar(CarroRequestDTO carroRequestDTO) {
+        return carroRequestDTO.getModelo() == null ||
+                carroRequestDTO.getMarca() == null ||
+                carroRequestDTO.getAnoFabricacao() == null ||
+                carroRequestDTO.getAnoModelo() == null ||
+                carroRequestDTO.getCor() == null;
+    }
+
 }
