@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface PatioRepository extends JpaRepository<Patio, Long> {
 
-    List<Carro> findByNome(String nome);
+    List<Patio> findByNome(String nome);
 
 }

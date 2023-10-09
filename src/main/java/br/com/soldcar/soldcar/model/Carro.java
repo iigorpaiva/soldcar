@@ -28,8 +28,10 @@ public class Carro extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Cor cor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patio_id")
     private Patio patio;
+    
+    private String caminhoFotos;
 
 }

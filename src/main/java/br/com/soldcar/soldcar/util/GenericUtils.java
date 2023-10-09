@@ -1,5 +1,6 @@
 package br.com.soldcar.soldcar.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,6 +51,27 @@ public class GenericUtils {
     // Verifica se uma string é nula ou vazia.
     public boolean isNullOrEmpty(String str) {
         return str == null || str.isEmpty();
+    }
+
+    // Converte objeto para JSON
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public static String primeiraLetraMaiuscula(String palavra) {
+        if (palavra == null || palavra.isEmpty()) {
+            return palavra; // Retorna a palavra original se for nula ou vazia
+        }
+        
+        // Transforma a primeira letra da palavra em maiúscula e o resto em minúsculas
+        String primeiraLetra = palavra.substring(0, 1).toUpperCase();
+        String restante = palavra.substring(1).toLowerCase();
+        
+        return primeiraLetra + restante;
     }
 
 }

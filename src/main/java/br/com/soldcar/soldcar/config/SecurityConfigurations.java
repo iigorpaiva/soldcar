@@ -51,6 +51,8 @@ public class SecurityConfigurations {
                             .requestMatchers(HttpMethod.GET, AUTH_SWAGGER_WHITELIST).permitAll()
                             .requestMatchers(HttpMethod.GET, "/").permitAll()
                             .requestMatchers(HttpMethod.GET, "/api/carro/").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/api/carro/inserirCarro").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/api/patio/").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                             .requestMatchers(HttpMethod.POST, "/api/auth/register").hasRole("ADMIN")
 //                            .requestMatchers(HttpMethod.POST, "/api/auth/register").hasRole("ADMiN")

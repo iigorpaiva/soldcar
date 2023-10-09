@@ -8,5 +8,6 @@ import java.util.List;
 public interface CarroRepository extends JpaRepository<Carro, Long> {
 
     List<Carro> findByModelo(String modelo);
+    List<Carro> findByPatioId(Integer patioId);
 
 }

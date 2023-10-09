@@ -1,7 +1,6 @@
 package br.com.soldcar.soldcar.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,5 +13,9 @@ import lombok.NoArgsConstructor;
 public class Patio extends BaseEntity {
 
     private String nome;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "carro_id")
+    private Carro carroId;
 
 }

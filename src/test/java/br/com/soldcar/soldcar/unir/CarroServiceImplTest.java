@@ -1,4 +1,4 @@
-package br.com.soldcar.soldcar.services;
+package br.com.soldcar.soldcar.unir;
 
 import br.com.soldcar.soldcar.dto.CarroRequestDTO;
 import br.com.soldcar.soldcar.enums.Cor;

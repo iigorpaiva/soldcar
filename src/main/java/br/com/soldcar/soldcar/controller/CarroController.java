@@ -21,14 +21,21 @@ public class CarroController {
     @GetMapping("/buscarCarrosPorModelo")
     @SecurityRequirement(name = "Bearer Authentication")
     public List<Carro> buscarCarrosPorModelo(@RequestParam String modelo) {
-        List<Carro> listCarrosPorModelo =  carroService.buscarCarroPorModelo(modelo);
+        List<Carro> listCarrosPorModelo =  carroService.buscarCarrosPorModelo(modelo);
         return new ResponseEntity<>(listCarrosPorModelo, HttpStatus.OK).getBody();
     }
-
-    @PostMapping("/inserirCarro")
+    
+    @GetMapping("/buscarCarrosPorPatio")
     @SecurityRequirement(name = "Bearer Authentication")
-    public ResponseEntity<Carro> inserirCarro(@RequestBody CarroRequestDTO carroRequestDTO) {
-        Carro carroCriado = carroService.inserirCarro(carroRequestDTO);
+    public List<Carro> buscarCarrosPorPatio(@RequestParam Integer patioId) {
+        List<Carro> listCarrosPorModelo =  carroService.buscarCarrosPorPatio(patioId);
+        return new ResponseEntity<>(listCarrosPorModelo, HttpStatus.OK).getBody();
+    }
+    
+    @RequestMapping(value = "/inserirCarro", method = RequestMethod.POST, consumes = "multipart/form-data")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public ResponseEntity<Carro> inserirCarro(@ModelAttribute CarroRequestDTO carroUploadDTO) {
+        Carro carroCriado = carroService.inserirCarro(carroUploadDTO);
         return new ResponseEntity<>(carroCriado, HttpStatus.CREATED);
     }
 
