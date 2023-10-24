@@ -24,7 +24,7 @@ public class GenericUtils {
     }
 
     // Verifica se uma string está vazia ou nula.
-    public boolean isEmpty(String input) {
+    public static boolean isEmpty(String input) {
         return input == null || input.isEmpty();
     }
 

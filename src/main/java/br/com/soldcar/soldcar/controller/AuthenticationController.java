@@ -2,8 +2,11 @@ package br.com.soldcar.soldcar.controller;
 
 import br.com.soldcar.soldcar.config.TokenService;
 import br.com.soldcar.soldcar.dto.ErrorResponseDTO;
+import br.com.soldcar.soldcar.mapper.UserMapper;
 import br.com.soldcar.soldcar.model.user.*;
 import br.com.soldcar.soldcar.repository.UserRepository;
+import br.com.soldcar.soldcar.service.UserService;
+import br.com.soldcar.soldcar.util.GenericUtils;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,16 @@ public class AuthenticationController {
     private UserRepository repository;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private UserMapper userMapper;
+    
+    @Autowired
+    private GenericUtils genericUtils;
+    
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthenticationDTO data) {
@@ -36,8 +49,12 @@ public class AuthenticationController {
             var auth = authenticationManager.authenticate(usernamePassword);
 
             var token = tokenService.generateToken((User) auth.getPrincipal());
+            
+            String authorities = auth.getAuthorities().toString();
+            
+            LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder().userRole(authorities).token(token).build();
 
-            return ResponseEntity.ok(new LoginResponseDTO(token));
+            return ResponseEntity.ok(loginResponseDTO);
         } catch (AuthenticationException e) {
             // Se a autenticação falhar, você pode retornar uma mensagem de erro personalizada
             String errorMessage = "Credenciais inválidas. Verifique seu login e sua senha.";

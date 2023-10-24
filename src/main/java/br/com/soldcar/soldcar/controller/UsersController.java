@@ -1,8 +1,10 @@
 package br.com.soldcar.soldcar.controller;
 
 import br.com.soldcar.soldcar.dto.UserResponseDTO;
+import br.com.soldcar.soldcar.dto.UserUpdateDTO;
 import br.com.soldcar.soldcar.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,14 @@ public class UsersController {
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
         userService.deletarUsuario(userId);
         return ResponseEntity.ok("Usuário deletado com sucesso");
+    }
+    
+    @PutMapping("/{userId}")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public ResponseEntity editarUsuario(@PathVariable Long userId, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
+        userService.editarUsuario(userId, userUpdateDTO);
+        
+        return ResponseEntity.ok(userUpdateDTO);
     }
 
 }

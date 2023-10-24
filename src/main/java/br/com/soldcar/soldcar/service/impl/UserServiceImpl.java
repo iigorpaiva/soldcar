@@ -1,9 +1,11 @@
 package br.com.soldcar.soldcar.service.impl;
 
 import br.com.soldcar.soldcar.dto.UserResponseDTO;
+import br.com.soldcar.soldcar.dto.UserUpdateDTO;
 import br.com.soldcar.soldcar.model.user.User;
 import br.com.soldcar.soldcar.repository.UserRepository;
 import br.com.soldcar.soldcar.service.UserService;
+import br.com.soldcar.soldcar.util.GenericUtils;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +48,31 @@ public class UserServiceImpl implements UserService {
             userRepository.delete(user);
         }
     }
-
+    
+    @Override
+    public User editarUsuario(Long userId, UserUpdateDTO userUpdateDTO) {
+        Optional<User> optUser = userRepository.findById(userId);
+        
+        User user = optUser.get();
+        if(! GenericUtils.isEmpty(userUpdateDTO.getLogin())) {
+            user.setLogin(userUpdateDTO.getLogin());
+        }
+        
+        if(!GenericUtils.isEmpty(userUpdateDTO.getNome())) {
+            user.setNome(userUpdateDTO.getNome());
+        }
+        
+        if(!GenericUtils.isEmpty(userUpdateDTO.getSobrenome())) {
+            user.setSobrenome(userUpdateDTO.getSobrenome());
+        }
+        
+        if(!GenericUtils.isEmpty(userUpdateDTO.getEmail())) {
+            user.setEmail(userUpdateDTO.getEmail());
+        }
+        
+        userRepository.save(user);
+        
+        return user;
+    }
+    
 }
