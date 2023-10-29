@@ -52,8 +52,8 @@ public class SecurityConfigurations {
                             .requestMatchers(HttpMethod.GET, "/").permitAll()
                             .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                             .requestMatchers(HttpMethod.GET, "/api/users/editarUsuario").permitAll()
-                            .requestMatchers(HttpMethod.PUT, "/api/users/editarUsuario").permitAll()
-                            .requestMatchers(HttpMethod.POST, "/api/auth/editarUsuario").permitAll()
+                            .requestMatchers(HttpMethod.PUT, "/api/users/editarUsuario").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.GET, "/api/carro/buscarCarrosPorPatio").permitAll()
                             .anyRequest().authenticated())
                     .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                     .build();

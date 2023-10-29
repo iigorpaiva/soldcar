@@ -1,6 +1,7 @@
 package br.com.soldcar.soldcar.service;
 
 import br.com.soldcar.soldcar.dto.CarroRequestDTO;
+import br.com.soldcar.soldcar.dto.CarroResponseDTO;
 import br.com.soldcar.soldcar.model.Carro;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface CarroService {
      * @param patioId O Id do pátio usado como referÊncia na busca
      * @return Lista de carros
      */
-    List<Carro> buscarCarrosPorPatio(Integer patioId);
+    List<CarroResponseDTO> buscarCarrosPorPatio(Integer patioId);
     
     Carro inserirCarro(CarroRequestDTO carroRequestDTO);
 

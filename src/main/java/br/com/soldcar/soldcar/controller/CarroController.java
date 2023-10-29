@@ -1,6 +1,7 @@
 package br.com.soldcar.soldcar.controller;
 
 import br.com.soldcar.soldcar.dto.CarroRequestDTO;
+import br.com.soldcar.soldcar.dto.CarroResponseDTO;
 import br.com.soldcar.soldcar.model.Carro;
 import br.com.soldcar.soldcar.service.CarroService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -27,8 +28,8 @@ public class CarroController {
     
     @GetMapping("/buscarCarrosPorPatio")
     @SecurityRequirement(name = "Bearer Authentication")
-    public List<Carro> buscarCarrosPorPatio(@RequestParam Integer patioId) {
-        List<Carro> listCarrosPorModelo =  carroService.buscarCarrosPorPatio(patioId);
+    public List<CarroResponseDTO> buscarCarrosPorPatio(@RequestParam Integer patioId) {
+        List<CarroResponseDTO> listCarrosPorModelo =  carroService.buscarCarrosPorPatio(patioId);
         return new ResponseEntity<>(listCarrosPorModelo, HttpStatus.OK).getBody();
     }
     

@@ -1,6 +1,7 @@
 package br.com.soldcar.soldcar.service.impl;
 
 import br.com.soldcar.soldcar.dto.CarroRequestDTO;
+import br.com.soldcar.soldcar.dto.CarroResponseDTO;
 import br.com.soldcar.soldcar.exception.CarroInvalidoException;
 import br.com.soldcar.soldcar.mapper.CarroMapper;
 import br.com.soldcar.soldcar.model.Carro;
@@ -40,8 +41,10 @@ public class CarroServiceImpl implements CarroService {
     }
     
     @Override
-    public List<Carro> buscarCarrosPorPatio(Integer patioId) {
-        return carroRepository.findByPatioId(patioId);
+    public List<CarroResponseDTO> buscarCarrosPorPatio(Integer patioId) {
+        List<Carro> carroList = carroRepository.findByPatioId(patioId);
+        List<CarroResponseDTO> carroResponseDTOList = carroMapper.carrosToCarroResponseDTOs(carroList);
+        return carroResponseDTOList;
     }
     
     @Override
