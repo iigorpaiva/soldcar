@@ -53,24 +53,7 @@ public class CarroServiceImpl implements CarroService {
             throw new CarroInvalidoException("Carro não pode ser cadastrado devido a informações inválidas");
         }
         
-        List<MultipartFile> fotos = carroRequestDTO.getFotos();
-        String nomePasta = UUID.randomUUID().toString() + "_" + carroRequestDTO.getModelo();
-        
-        String diretorioBase = "src/main/resources/fotos/";
-        
-        String caminhoCompleto = diretorioBase + nomePasta;
-        
-        try {
-            Files.createDirectories(Path.of(caminhoCompleto));
-            
-            for (int i = 0; i < fotos.size(); i++) {
-                String nomeFoto = "foto" + (i + 1) + ".jpg";
-                Files.write(Paths.get(caminhoCompleto, nomeFoto), fotos.get(i).getBytes());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Erro ao salvar fotos do carro");
-        }
+        String caminhoCompleto = salvarFotosBucket(carroRequestDTO);
         
         String patioString = GenericUtils.primeiraLetraMaiuscula(carroRequestDTO.getPatio().toString());
         Patio patio = patioRepository.findByNome(patioString).get(0);
@@ -97,6 +80,28 @@ public class CarroServiceImpl implements CarroService {
                 carroRequestDTO.getAnoFabricacao() == null ||
                 carroRequestDTO.getAnoModelo() == null ||
                 carroRequestDTO.getCor() == null;
+    }
+    
+    private String salvarFotosBucket(CarroRequestDTO carroRequestDTO) {
+        
+        List<MultipartFile> fotos = carroRequestDTO.getFotos();
+        String nomePasta = UUID.randomUUID().toString() + "_" + carroRequestDTO.getModelo();
+        String diretorioBase = "src/main/resources/fotos/";
+        String caminhoCompleto = diretorioBase + nomePasta;
+        
+        try {
+            Files.createDirectories(Path.of(caminhoCompleto));
+            
+            for (int i = 0; i < fotos.size(); i++) {
+                String nomeFoto = "foto" + (i + 1) + ".jpg";
+                Files.write(Paths.get(caminhoCompleto, nomeFoto), fotos.get(i).getBytes());
+            }
+            return caminhoCompleto;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao salvar fotos do carro");
+        }
+        
     }
 
 }

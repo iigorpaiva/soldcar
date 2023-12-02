@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Builder
 @Data
@@ -20,4 +23,5 @@ public class CarroResponseDTO {
     private Cor cor;
     private Long patioId;
     private String caminhoFotos;
+    private List<MultipartFile> fotos;
 }
